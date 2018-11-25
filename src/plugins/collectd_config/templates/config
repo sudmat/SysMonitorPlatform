@@ -1,0 +1,9 @@
+
+{% for config in configs %}
+{%- for name, setting in config.items() %}
+    <Plugin {{name}}>
+    {% for key,value in setting.items() %}    {{key}} {{value}}
+    {%endfor-%}
+    </Plugin>
+{%- endfor %}
+{% endfor %}
