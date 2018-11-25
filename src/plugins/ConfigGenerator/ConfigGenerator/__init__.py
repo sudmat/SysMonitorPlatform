@@ -5,7 +5,8 @@ The ConfigGenerator-class is imported from both run_plugin.py and run_debug.py
 import sys
 import logging
 from webgme_bindings import PluginBase
-from ...collectd_config.config import CollectdConfig
+from collectd_config.config import CollectdConfig
+from collectd_config.config_io import write_to_config
 
 # Setup a logger
 logger = logging.getLogger('ConfigGenerator')
@@ -28,10 +29,10 @@ class ConfigGenerator(PluginBase):
         # logger.error('guid: {0}'.format(core.get_guid(active_node)))
         # generate and save tree
         configs = self.get_config()
+        configs[0].to_config('collectd.conf')
         print(1)
 
     def get_config(self):
-
         configs = []
         for machine in self.core.load_children(self.active_node):
             ip = self.core.get_attribute(machine, 'ip')
@@ -39,8 +40,14 @@ class ConfigGenerator(PluginBase):
             for monitor in self.core.load_children(machine):
                 meta_node = self.core.get_meta_type(monitor)
                 meta_type = self.core.get_attribute(meta_node, 'name')
-                cur_item = dict([(k, self.core.get_attribute(monitor, k))
-                                 for k in self.core.get_attribute_names(monitor) if k != 'name'])
+                cur_item = {}
+                for k in self.core.get_attribute_names(monitor):
+                    x = self.core.get_attribute(monitor, k)
+                    if k == 'name' or not x:
+                        continue
+                    if isinstance(x, str):
+                        x = '"'+x+'"'
+                    cur_item[k] = x
                 cur_config.add_item(meta_type, cur_item)
             configs.append(cur_config)
         return configs
