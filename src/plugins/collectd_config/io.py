@@ -12,28 +12,28 @@ def read_from_config(config_str):
 
 if __name__ == '__main__':
     setting = {}
-    setting['ReportByCpu'] = 'false'
-    setting['ReportByState'] = 'true'
-    setting['ValuesPercentage'] = 'false'
+    setting['ReportByCpu'] = ['false']
+    setting['ReportByState'] = ['true']
+    setting['ValuesPercentage'] = ['false']
 
     cpu1 = {}
     cpu1['cpu1'] = setting
 
     setting = {}
-    setting['ReportByCpu'] = 'false'
-    setting['ReportByState'] = 'true'
-    setting['ValuesPercentage'] = 'false'
+    setting['ReportByCpu'] = ['false', 'false', 'true']
+    setting['ReportByState'] = ['true']
+    setting['ValuesPercentage'] = ['false']
 
     cpu2 = {}
     cpu2['cpu2'] = setting
 
     setting = {}
-    setting['ReportByCpu'] = 'false'
-    setting['ReportByState'] = 'true'
-    setting['ValuesPercentage'] = 'false'
+    setting['ReportByCpu'] = ['false']
+    setting['ReportByState'] = ['true']
+    setting['ValuesPercentage'] = ['false']
 
     cpu3 = {}
-    cpu3['cpu3'] = setting
+    cpu3['cpu1'] = setting
 
     config_list = [cpu1, cpu2, cpu3]
 
