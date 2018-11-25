@@ -1,0 +1,19 @@
+'use strict';
+
+var config = require('./config.webgme'),
+    validateConfig = require('webgme/config/validator');
+
+// Add/overwrite any additional settings here
+config.server.port = 8081;
+// config.mongo.uri = 'mongodb://127.0.0.1:27017/webgme_my_app';
+
+config.plugin.allowServerExecution = true;
+// Seeds
+config.seedProjects.enable = true;
+config.seedProjects.basePaths = ["./seeds"]
+
+// Icons
+config.visualization.svgDirs.push('./icons/png');
+
+validateConfig(config);
+module.exports = config;

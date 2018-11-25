@@ -1,0 +1,20 @@
+[
+  {
+    "id": "chronograph",
+    "title": "chronograph",
+    "panel": "panels/chronograph/chronographPanel",
+    "DEBUG_ONLY": false
+  },
+  {
+    "id": "welcome",
+    "title": "welcome",
+    "panel": "panels/welcome/welcomePanel",
+    "DEBUG_ONLY": false
+  },
+  {
+    "id": "ModelManager",
+    "title": "ModelManager",
+    "panel": "panels/ModelManager/ModelManagerPanel",
+    "DEBUG_ONLY": false
+  }
+]

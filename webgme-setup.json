@@ -1,0 +1,17 @@
+{
+  "components": {
+    "plugins": {
+      "MyPythonPlugin": {
+        "src": "src/plugins/MyPythonPlugin",
+        "test": "test/plugins/MyPythonPlugin"
+      },
+      "ConfigGenerator": {
+        "src": "src/plugins/ConfigGenerator",
+        "test": "test/plugins/ConfigGenerator"
+      }
+    }
+  },
+  "dependencies": {
+    "plugins": {}
+  }
+}
