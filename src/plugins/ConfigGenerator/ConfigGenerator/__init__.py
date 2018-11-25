@@ -5,7 +5,7 @@ The ConfigGenerator-class is imported from both run_plugin.py and run_debug.py
 import sys
 import logging
 from webgme_bindings import PluginBase
-from ...config import CollectdConfig
+from ...collectd_config.config import CollectdConfig
 
 # Setup a logger
 logger = logging.getLogger('ConfigGenerator')
