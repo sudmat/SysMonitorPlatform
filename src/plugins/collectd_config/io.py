@@ -69,9 +69,9 @@ if __name__ == '__main__':
     config_list = [cpu1, cpu2, cpu3]
 
     x = write_to_config(config_list)
-    #print(x)
+    print(x)
 
     y = read_from_config('collectd.conf')
-    print(y)
+    #print(y)
 
 
