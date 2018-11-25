@@ -7,8 +7,39 @@ def write_to_config(config_info):
     output = template.render(configs=config_info)
     return output
 
-def read_from_config(config_str):
-    return {}
+def read_from_config(config_file):
+    f = open(config_file, "r")
+    dict_list = []
+    flag = False
+    for line in f.readlines():
+        if line[0:7] == "</Plugi" and flag:
+            flag = False
+            new_dict[hardware_name] = setting
+            dict_list.append(new_dict)
+
+        if flag:
+            name_param = line.split(" ")
+            setting_name = name_param[0].replace('\t', '')
+            setting_param = name_param[1].replace('\n', '')
+            if setting_name in setting:
+                setting[setting_name].append(setting_param)
+            else:
+                setting[setting_name] = [setting_param]
+
+        if line[0:7] == "<Plugin":
+            flag = True
+            hardware_name = ""
+            n = 8
+            while True:
+                char = line[n]
+                if char == ">":
+                    break
+                hardware_name += char
+                n += 1
+            # create a new dict for hardware to be monitored
+            new_dict = {}
+            setting = {}
+    return dict_list
 
 if __name__ == '__main__':
     setting = {}
@@ -38,8 +69,9 @@ if __name__ == '__main__':
     config_list = [cpu1, cpu2, cpu3]
 
     x = write_to_config(config_list)
-    print(x)
+    #print(x)
 
-    y = read_from_config('')
+    y = read_from_config('collectd.conf')
+    print(y)
 
 
