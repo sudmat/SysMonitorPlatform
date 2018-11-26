@@ -18,9 +18,10 @@ def read_from_config(config_file):
             load_name = line.split(" ")
             hardware_name = load_name[1].replace('\n', '')
             if "LoadPlugin" not in load_plugin:
-                load_plugin["LoadPlugin"] = [hardware_name]
+                load_plugin["LoadPlugin"] = {}
+                load_plugin["LoadPlugin"][hardware_name] = []
             else:
-                load_plugin["LoadPlugin"].append(hardware_name)
+                load_plugin["LoadPlugin"][hardware_name] = []
 
     dict_list.append(load_plugin)
     f.close()
