@@ -10,6 +10,23 @@ def write_to_config(config_info):
 def read_from_config(config_file):
     f = open(config_file, "r")
     dict_list = []
+
+    # extract load
+    load_plugin = {}
+    for line in f.readlines():
+        if line[0:10] == "LoadPlugin":
+            load_name = line.split(" ")
+            hardware_name = load_name[1].replace('\n', '')
+            if "LoadPlugin" not in load_plugin:
+                load_plugin["LoadPlugin"] = [hardware_name]
+            else:
+                load_plugin["LoadPlugin"].append(hardware_name)
+
+    dict_list.append(load_plugin)
+    f.close()
+
+    # extract plugin
+    f = open(config_file, "r")
     flag = False
     for line in f.readlines():
         if line[0:7] == "</Plugi" and flag:
@@ -39,39 +56,14 @@ def read_from_config(config_file):
             # create a new dict for hardware to be monitored
             new_dict = {}
             setting = {}
+    f.close()
     return dict_list
 
 if __name__ == '__main__':
-    setting = {}
-    setting['ReportByCpu'] = ['false']
-    setting['ReportByState'] = ['true']
-    setting['ValuesPercentage'] = ['false']
-
-    cpu1 = {}
-    cpu1['cpu1'] = setting
-
-    setting = {}
-    setting['ReportByCpu'] = ['false', 'false', 'true']
-    setting['ReportByState'] = ['true']
-    setting['ValuesPercentage'] = ['false']
-
-    cpu2 = {}
-    cpu2['cpu2'] = setting
-
-    setting = {}
-    setting['ReportByCpu'] = ['false']
-    setting['ReportByState'] = ['true']
-    setting['ValuesPercentage'] = ['false']
-
-    cpu3 = {}
-    cpu3['cpu1'] = setting
-
-    config_list = [cpu1, cpu2, cpu3]
-
-    x = write_to_config(config_list)
-    print(x)
 
     y = read_from_config('collectd.conf')
-    #print(y)
+    print(y)
+    x = write_to_config(y)
+    print(x)
 
 
