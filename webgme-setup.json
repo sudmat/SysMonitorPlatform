@@ -8,6 +8,10 @@
       "ConfigGenerator": {
         "src": "src/plugins/ConfigGenerator",
         "test": "test/plugins/ConfigGenerator"
+      },
+      "ConfigReader": {
+        "src": "src/plugins/ConfigReader",
+        "test": "test/plugins/ConfigReader"
       }
     }
   },

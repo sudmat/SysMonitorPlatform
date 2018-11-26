@@ -29,25 +29,33 @@ class ConfigGenerator(PluginBase):
         # logger.error('guid: {0}'.format(core.get_guid(active_node)))
         # generate and save tree
         configs = self.get_config()
-        configs[0].to_config('collectd.conf')
-        print(1)
+        config_content = configs[0].to_config()
+        self.add_file('collectd.conf',config_content)
+        # with open('collectd.conf', 'w') as f:
+        #     f.write(config_content)
+
+    def _get_collectd_config(self, monitor):
+        config = CollectdConfig()
+        for plugin in self.core.load_children(monitor):
+            meta_node = self.core.get_meta_type(plugin)
+            meta_type = self.core.get_attribute(meta_node, 'name')
+            cur_item = {}
+            for k in self.core.get_attribute_names(plugin):
+                x = self.core.get_attribute(plugin, k)
+                if k == 'name' or not x:
+                    continue
+                if isinstance(x, str):
+                    x = '"' + x + '"'
+                cur_item[k] = x
+            config.add_item(meta_type, cur_item)
+        return config
 
     def get_config(self):
         configs = []
         for machine in self.core.load_children(self.active_node):
-            ip = self.core.get_attribute(machine, 'ip')
-            cur_config = CollectdConfig(machine=ip)
             for monitor in self.core.load_children(machine):
-                meta_node = self.core.get_meta_type(monitor)
-                meta_type = self.core.get_attribute(meta_node, 'name')
-                cur_item = {}
-                for k in self.core.get_attribute_names(monitor):
-                    x = self.core.get_attribute(monitor, k)
-                    if k == 'name' or not x:
-                        continue
-                    if isinstance(x, str):
-                        x = '"'+x+'"'
-                    cur_item[k] = x
-                cur_config.add_item(meta_type, cur_item)
-            configs.append(cur_config)
+                tool_type = self.core.get_attribute(monitor, 'tool')
+                if tool_type == 'collectd':
+                    cur_config = self._get_collectd_config(monitor)
+                    configs.append(cur_config)
         return configs
