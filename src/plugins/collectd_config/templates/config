@@ -1,11 +1,12 @@
 
+{%- for config in configs %}
+    {%- for name, setting in config.items() %}
+LoadPlugin {{name}}
+    {%- endfor %}
+{%- endfor %}
+
 {% for config in configs %}
     {%- for name, setting in config.items() %}
-        {%-if name == "LoadPlugin"%}
-            {%-for key, value in setting.items() %}
-LoadPlugin {{key}}
-            {%-endfor%}
-        {%else%}
 <Plugin {{name}}>
             {%-for key,value in setting.items() %}
                 {%-for v in value%}
@@ -13,6 +14,5 @@ LoadPlugin {{key}}
                 {%-endfor %}
             {%-endfor%}
 </Plugin>
-        {%-endif%}
     {%- endfor %}
 {% endfor %}
