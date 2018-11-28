@@ -8,4 +8,4 @@ Second, start mongodb locally by running the `mongod` executable in your mongodb
 
 Then, run `webgme start` from the project root to start . Finally, navigate to `http://localhost:8888` to start using mygme!
 
-![Alt text](./img/usecase_metric.PNG "Metric Selection")
+![Alt text](./img/screenshots/domain.png "")
