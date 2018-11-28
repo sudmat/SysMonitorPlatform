@@ -12,7 +12,7 @@ Then, run `npm start` from the project root to start . Finally, navigate to `htt
 ## Meta-model design
 ![Alt text](./img/screenshots/domain.png "")
 ## A simple model instance
-![Alt text](./img/screenshots/project instance.png "")
+![Alt text]("./img/screenshots/project instance.png" "")
 ## Plugin example
 ### 1 Check the configuaration correctness
 
