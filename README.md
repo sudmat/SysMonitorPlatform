@@ -9,3 +9,11 @@ Second, start mongodb locally by running the `mongod` executable in your mongodb
 Then, run `webgme start` from the project root to start . Finally, navigate to `http://localhost:8888` to start using mygme!
 
 ![Alt text](./img/screenshots/domain.png "")
+![Alt text](./img/screenshots/project instance.png "")
+![Alt text](./img/screenshots/plugin_check1.png "")
+![Alt text](./img/screenshots/plugin_check2.png "")
+![Alt text](./img/screenshots/plugin_gene1.png "")
+![Alt text](./img/screenshots/plugin_gene2.png "")
+![Alt text](./img/screenshots/plugin_gene3.png "")
+![Alt text](./img/screenshots/plugin_read1.png "")
+![Alt text](./img/screenshots/plugin_read1.png "")
