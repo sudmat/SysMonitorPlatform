@@ -8,12 +8,18 @@ Second, start mongodb locally by running the `mongod` executable in your mongodb
 
 Then, run `webgme start` from the project root to start . Finally, navigate to `http://localhost:8888` to start using mygme!
 
+## Meta-model design
 ![Alt text](./img/screenshots/domain.png "")
+## A simple demo model
 ![Alt text](./img/screenshots/project instance.png "")
+## Plugin example
+### check the configuaration correctness
 ![Alt text](./img/screenshots/plugin_check1.png "")
 ![Alt text](./img/screenshots/plugin_check2.png "")
+### generate the configuration file from model
 ![Alt text](./img/screenshots/plugin_gene1.png "")
 ![Alt text](./img/screenshots/plugin_gene2.png "")
 ![Alt text](./img/screenshots/plugin_gene3.png "")
+### read from a configuration file to generate corresponding model
 ![Alt text](./img/screenshots/plugin_read1.png "")
-![Alt text](./img/screenshots/plugin_read1.png "")
+![Alt text](./img/screenshots/plugin_read2.png "")
