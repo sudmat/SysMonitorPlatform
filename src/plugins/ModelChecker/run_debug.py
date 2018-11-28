@@ -15,15 +15,15 @@ import signal
 import atexit
 import logging
 from webgme_bindings import WebGME
-from ConfigGenerator import ConfigGenerator
+from ModelChecker import ModelChecker
 
-logger = logging.getLogger('ConfigGenerator')
+logger = logging.getLogger('ModelChecker')
 
 # Modify these or add option or parse from sys.argv (as in done in run_plugin.py)
 PORT = '5555'
 PROJECT_NAME = 'SysMonitorPlatform_v3'
 BRANCH_NAME = 'master'
-ACTIVE_NODE_PATH = '/L/p'
+ACTIVE_NODE_PATH = '/L/H/t'
 ACTIVE_SELECTION_PATHS = []
 NAMESPACE = ''
 METADATA_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'metadata.json')
@@ -51,7 +51,7 @@ def exit_handler():
 atexit.register(exit_handler)
 
 commit_hash = webgme.project.get_branch_hash(BRANCH_NAME)
-plugin = ConfigGenerator(webgme, commit_hash, BRANCH_NAME, ACTIVE_NODE_PATH, ACTIVE_SELECTION_PATHS, NAMESPACE)
+plugin = ModelChecker(webgme, commit_hash, BRANCH_NAME, ACTIVE_NODE_PATH, ACTIVE_SELECTION_PATHS, NAMESPACE)
 
 # Do the work
 plugin.main()

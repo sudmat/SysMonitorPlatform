@@ -12,6 +12,10 @@
       "ConfigReader": {
         "src": "src/plugins/ConfigReader",
         "test": "test/plugins/ConfigReader"
+      },
+      "ModelChecker": {
+        "src": "src/plugins/ModelChecker",
+        "test": "test/plugins/ModelChecker"
       }
     }
   },

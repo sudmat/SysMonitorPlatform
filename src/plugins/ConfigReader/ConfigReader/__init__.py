@@ -24,6 +24,8 @@ class ConfigReader(PluginBase):
         root_node = self.root_node
         active_node = self.active_node
         # self.save_file()
+        proj_node = self.core.get_parent(active_node)
+        self.proj_node = proj_node
         config_content = read_from_config(self._temp_file_name())
         self.add_config2model(config_content)
         # logger.info(x)
@@ -40,7 +42,7 @@ class ConfigReader(PluginBase):
 
     def add_config2model(self, config_info):
         meta = self._get_meta()
-        nbr = len(self.core.load_children(self.active_node))
+        nbr = self._get_monitor_nbr()
         monitor = self.core.create_child(self.active_node, meta['Monitor'])
         monitor_name = 'CollectdMonitor%s'%(nbr+1)
         self.core.set_attribute(monitor, 'name', monitor_name)
@@ -58,9 +60,18 @@ class ConfigReader(PluginBase):
                 plugin = self.core.create_child(monitor, meta[k])
                 for attr, values in v.items():
                     for value in values:
+                        value = value.replace('"', '')
+                        if value == 'true':
+                            value = True
+                        if value == 'false':
+                            value = False
                         self.core.set_attribute(plugin, attr, value)
                 self.core.set_attribute(plugin, 'name', plugin_name)
         self.util.save(self.root_node, self.commit_hash, 'master', 'Monitor Added name=%s'%monitor_name)
+
+    def _get_monitor_nbr(self):
+        count = len(self.core.load_children(self.active_node))
+        return count
 
     def _get_meta(self):
 

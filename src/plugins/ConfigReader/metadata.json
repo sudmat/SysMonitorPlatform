@@ -12,9 +12,9 @@
   "dependencies": [],
   "writeAccessRequired": false,
   "configStructure": [{
-      "name": "deploymentFiles",
-      "displayName": "Deployment artifacts",
-      "description": "Currently need only the pom.xml and any model files",
+      "name": "configuration",
+      "displayName": "Configuration File",
+      "description": "collectd configuration file that's to be read",
       "value": "",
       "valueType": "asset",
       "readOnly": false

@@ -5,8 +5,8 @@ The ConfigGenerator-class is imported from both run_plugin.py and run_debug.py
 import sys
 import logging
 from webgme_bindings import PluginBase
-from collectd_config.config import CollectdConfig
-from collectd_config.config_io import write_to_config
+
+from .collectd_config.config import CollectdConfig
 
 # Setup a logger
 logger = logging.getLogger('ConfigGenerator')
@@ -21,24 +21,18 @@ logger.addHandler(handler)
 class ConfigGenerator(PluginBase):
     def main(self):
         active_node = self.active_node
-        core = self.core
-        logger = self.logger
-        # logger.debug('path: {0}'.format(core.get_path(active_node)))
-        # logger.info('name: {0}'.format(core.get_attribute(active_node, 'name')))
-        # logger.warn('pos : {0}'.format(core.get_registry(active_node, 'position')))
-        # logger.error('guid: {0}'.format(core.get_guid(active_node)))
-        # generate and save tree
+        proj_node = self.core.get_parent(active_node)
+        self.proj_node = proj_node
         x = self.get_current_config()
-        self.get_file(x[''])
-
         configs = self.get_config()
-        config_content = configs[0].to_config()
-        self.add_file('collectd.conf',config_content)
-        # with open('collectd.conf', 'w') as f:
-        #     f.write(config_content)
+        for cfg in configs:
+            config_content = cfg.to_config()
+            self.add_file('%s.conf'%cfg.file_name,config_content)
 
     def _get_collectd_config(self, monitor):
-        config = CollectdConfig()
+        fn = self.core.get_attribute(monitor, 'cfg_file_name') \
+             or self.core.get_attribute(monitor, 'name')
+        config = CollectdConfig(file_name=fn)
         for plugin in self.core.load_children(monitor):
             meta_node = self.core.get_meta_type(plugin)
             meta_type = self.core.get_attribute(meta_node, 'name')
@@ -55,10 +49,16 @@ class ConfigGenerator(PluginBase):
 
     def get_config(self):
         configs = []
-        for machine in self.core.load_children(self.active_node):
-            for monitor in self.core.load_children(machine):
-                tool_type = self.core.get_attribute(monitor, 'tool')
-                if tool_type == 'collectd':
-                    cur_config = self._get_collectd_config(monitor)
-                    configs.append(cur_config)
+        for monitor in self._get_monitor_nodes():
+            tool_type = self.core.get_attribute(monitor, 'tool')
+            if tool_type == 'collectd':
+                cur_config = self._get_collectd_config(monitor)
+                configs.append(cur_config)
         return configs
+
+    def _get_monitor_nodes(self):
+        monitors = self.core.load_children(self.active_node)
+        return monitors
+
+
+

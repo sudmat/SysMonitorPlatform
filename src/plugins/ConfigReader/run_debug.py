@@ -21,9 +21,9 @@ logger = logging.getLogger('ConfigReader')
 
 # Modify these or add option or parse from sys.argv (as in done in run_plugin.py)
 PORT = '5555'
-PROJECT_NAME = 'SysMonitorPlatform_v2'
+PROJECT_NAME = 'SysMonitorPlatform_v3'
 BRANCH_NAME = 'master'
-ACTIVE_NODE_PATH = '/w/E'
+ACTIVE_NODE_PATH = '/L/H'
 ACTIVE_SELECTION_PATHS = []
 NAMESPACE = ''
 METADATA_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'metadata.json')
