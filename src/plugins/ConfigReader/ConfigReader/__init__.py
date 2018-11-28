@@ -5,6 +5,8 @@ The ConfigReader-class is imported from both run_plugin.py and run_debug.py
 import sys
 import logging
 from webgme_bindings import PluginBase
+from .config_io import read_from_config
+from collections import Counter
 
 # Setup a logger
 logger = logging.getLogger('ConfigReader')
@@ -21,12 +23,44 @@ class ConfigReader(PluginBase):
         core = self.core
         root_node = self.root_node
         active_node = self.active_node
+        # self.save_file()
+        config_content = read_from_config(self._temp_file_name())
+        self.add_config2model(config_content)
+        # logger.info(x)
 
+    @staticmethod
+    def _temp_file_name():
+        return __file__.replace('__init__.py', 'uploaded/test.conf')
+
+    def save_file(self):
+        cc = self.get_current_config()
+        file_content = self.get_file(cc['deploymentFiles'])
+        with open(self._temp_file_name(), 'w') as f:
+            f.write(file_content)
+
+    def add_config2model(self, config_info):
         meta = self._get_meta()
-        memory = self.core.create_child(self.active_node, meta['memory'])
-        self.core.create_node({'base': meta['memory']})
-        # self.core.set_attribute(monitor, 'name', 'test')
-        print(1)
+        nbr = len(self.core.load_children(self.active_node))
+        monitor = self.core.create_child(self.active_node, meta['Monitor'])
+        monitor_name = 'CollectdMonitor%s'%(nbr+1)
+        self.core.set_attribute(monitor, 'name', monitor_name)
+        tmp = []
+        for item in config_info:
+            tmp += list(item)
+        plugin_nbr = Counter(tmp)
+        for item in config_info:
+            for k, v in item.items():
+                if plugin_nbr[k] <= 1:
+                    plugin_name = k
+                else:
+                    plugin_name = k+str(plugin_nbr[k])
+                    plugin_nbr[k] -= 1
+                plugin = self.core.create_child(monitor, meta[k])
+                for attr, values in v.items():
+                    for value in values:
+                        self.core.set_attribute(plugin, attr, value)
+                self.core.set_attribute(plugin, 'name', plugin_name)
+        self.util.save(self.root_node, self.commit_hash, 'master', 'Monitor Added name=%s'%monitor_name)
 
     def _get_meta(self):
 

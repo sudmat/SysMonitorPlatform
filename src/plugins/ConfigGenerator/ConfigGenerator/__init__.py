@@ -28,6 +28,9 @@ class ConfigGenerator(PluginBase):
         # logger.warn('pos : {0}'.format(core.get_registry(active_node, 'position')))
         # logger.error('guid: {0}'.format(core.get_guid(active_node)))
         # generate and save tree
+        x = self.get_current_config()
+        self.get_file(x[''])
+
         configs = self.get_config()
         config_content = configs[0].to_config()
         self.add_file('collectd.conf',config_content)

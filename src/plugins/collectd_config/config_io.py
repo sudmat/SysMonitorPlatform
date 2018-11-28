@@ -21,6 +21,7 @@ def read_from_config(config_file):
             dict_list.append(new_dict)
 
         if flag:
+            line = line.strip(' ')
             name_param = line.split(" ")
             setting_name = name_param[0].replace('\t', '')
             setting_param = name_param[1].replace('\n', '')
@@ -60,7 +61,7 @@ def read_from_config(config_file):
 
 if __name__ == '__main__':
 
-    y = read_from_config('collectd.conf')
+    y = read_from_config('test.conf')
     print(y)
     x = write_to_config(y)
     print(x)
