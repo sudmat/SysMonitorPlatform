@@ -36,7 +36,7 @@ class ConfigReader(PluginBase):
 
     def save_file(self):
         cc = self.get_current_config()
-        file_content = self.get_file(cc['deploymentFiles'])
+        file_content = self.get_file(cc['configuration'])
         with open(self._temp_file_name(), 'w') as f:
             f.write(file_content)
 
@@ -47,11 +47,15 @@ class ConfigReader(PluginBase):
         monitor_name = 'CollectdMonitor%s'%(nbr+1)
         self.core.set_attribute(monitor, 'name', monitor_name)
         tmp = []
+        unknown_plugin = []
         for item in config_info:
             tmp += list(item)
         plugin_nbr = Counter(tmp)
         for item in config_info:
             for k, v in item.items():
+                if k not in meta:
+                    unknown_plugin.append(k)
+                    continue
                 if plugin_nbr[k] <= 1:
                     plugin_name = k
                 else:
@@ -67,6 +71,8 @@ class ConfigReader(PluginBase):
                             value = False
                         self.core.set_attribute(plugin, attr, value)
                 self.core.set_attribute(plugin, 'name', plugin_name)
+        if unknown_plugin:
+            self.create_message(self.active_node, 'unrecognozied plugin(s): %s'%', '.join(unknown_plugin))
         self.util.save(self.root_node, self.commit_hash, 'master', 'Monitor Added name=%s'%monitor_name)
 
     def _get_monitor_nbr(self):
