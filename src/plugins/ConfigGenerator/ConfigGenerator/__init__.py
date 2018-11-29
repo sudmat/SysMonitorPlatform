@@ -39,7 +39,7 @@ class ConfigGenerator(PluginBase):
             cur_item = {}
             for k in self.core.get_attribute_names(plugin):
                 x = self.core.get_attribute(plugin, k)
-                if k == 'name' or not x:
+                if k == 'name' or x == '':
                     continue
                 if isinstance(x, str):
                     x = '"' + x + '"'

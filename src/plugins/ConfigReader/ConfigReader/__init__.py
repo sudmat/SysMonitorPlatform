@@ -23,7 +23,7 @@ class ConfigReader(PluginBase):
         core = self.core
         root_node = self.root_node
         active_node = self.active_node
-        # self.save_file()
+        self.save_file()
         proj_node = self.core.get_parent(active_node)
         self.proj_node = proj_node
         config_content = read_from_config(self._temp_file_name())
