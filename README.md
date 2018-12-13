@@ -1,13 +1,13 @@
 # A System Monitor Platform Based On Collectd
 ## Installation
-First, install the mygme following:
-- [webgme](https://webgme.readthedocs.io/en/latest/getting_started/dependencies.html/)
-- [collcetd](https://collectd.org/)
-- [collectd-web](https://www.tecmint.com/install-collectd-and-collectd-web-to-monitor-server-resources-in-linux//)
+Clone this repository and make sure to install the following dependencies (you will need Python for this deployment):
+- [webgme](https://webgme.readthedocs.io/en/latest/getting_started/dependencies.html)
+- [collcetd](https://collectd.org)
+- [collectd-web](https://www.tecmint.com/install-collectd-and-collectd-web-to-monitor-server-resources-in-linux)
 
 Second, start mongodb locally by running the `mongod` executable in your mongodb installation (you may need to create a `data` directory or set `--dbpath`).
 
-Then, run `npm start` from the project root to start . Finally, navigate to `http://localhost:8081` to start using mygme!
+Make sure all node-modules are installed (`npm install`), then, run `npm start` from the project root to start . Finally, navigate to `http://localhost:8081` to start using mygme!
 
 ## Meta-model design
 ![Alt text](./img/screenshots/domain.png "")
